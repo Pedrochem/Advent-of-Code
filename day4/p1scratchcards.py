@@ -5,12 +5,9 @@ with open("test.txt") as f:
     res = 0
     games = defaultdict(list)
 
-    for i, _ in enumerate(lines):
-        games[i] = 1
-
     print(games)
 
-    for line in  lines:
+    for line in lines:
         matches = []
         numbers = line.split(":")[1]
 
@@ -22,6 +19,6 @@ with open("test.txt") as f:
 
         # print(matches)
         if len(matches) > 0:
-            res += 2 ** (len(matches)-1)
-        
+            res += 2 ** (len(matches) - 1)
+
     print(res)
