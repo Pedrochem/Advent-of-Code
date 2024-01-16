@@ -1,0 +1,31 @@
+79 - 93
+
+50 - 98
+
+
+
+# seed start in between src_start and src_range
+
+    # seed end before source end
+    seed: 60 - 70
+    src : 55 - 75
+
+    # seed end after source end
+    seed: 60 - 75
+    src : 55 - 70
+
+# seed start before src_start
+    # seed end before or equal to src end
+    seed: 55 - 75
+    src : 60 - 77
+
+    # seed end after src end
+    seed: 55 - 70 | 16
+    src : 60 - 64 | 5 (48)
+    
+    55 - 59 | 5
+    48 - 52 | 5
+    65 - 70 | 6
+
+
+
