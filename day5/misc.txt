@@ -4,7 +4,7 @@
 
 
 
-# seed start in between src_start and src_range
+# seed start in between src_start and src_end
 
     # seed end before source end
     seed: 60 - 70
@@ -26,6 +26,12 @@
     55 - 59 | 5
     48 - 52 | 5
     65 - 70 | 6
+
+
+
+# seed start before src_start
+seed: 1 - 5
+src : 2 - 3
 
 
 
