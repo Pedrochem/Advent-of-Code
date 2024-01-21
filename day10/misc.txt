@@ -1,0 +1,112 @@
+7-F7-
+.FJ|7
+SJLL7
+|F--J
+LJ.LJ
+
+
+..F7.
+.FJ|.
+SJ.L7
+|F--J
+LJ...
+
+
+..F7.
+.FJ|.
+SJ.L7
+|F--J
+LJ...
+
+
+
+
+
+
+
+import math
+
+symbol2coord = {
+    '|' : ('N', 'S'),
+    '-' : ('E', 'W'),
+    'L' : ('N', 'E'),
+    'J' : ('N', 'W'),
+    '7' : ('S', 'W'),
+    'F' : ('S', 'E'),
+    '.' : ('.','.'),
+    'S' : ('N','S','E','W') 
+}
+
+coord2symbol = {
+    ('N', 'S'): '|',
+    ('E', 'W'): '-',
+    ('N', 'E'): 'L',
+    ('N', 'W'): 'J',
+    ('S', 'W'): '7',
+    ('S', 'E'): 'F',
+    ('.','.'): '.',
+    ('N','S','E','W') : 'S'
+    }
+
+with open("full_input.txt") as f:
+
+    checkpoints = {}
+    lines = [line.rstrip() for line in f]
+    dim = len(lines)
+    loop = [[symbol2coord[lines[i][j]] for j in range(dim)] for i in range(dim)]
+    
+    def get_main_loop(prev_coord,i,j,first):
+        curr_node = loop[i][j]
+        if curr_node == ('N','S','E','W') and not first:
+            return True, 0
+        
+        else:
+            if 'S' != prev_coord and i-1 >= 0:
+                neigh_node = loop[i-1][j]
+                if 'S' in neigh_node and 'N' in curr_node:
+                    is_loop, conn = get_main_loop('N',i-1,j,False)
+                    if is_loop: 
+                        return True, conn+1
+
+            if 'N' != prev_coord and i+1 < dim:
+                neigh_node = loop[i+1][j]
+                if 'N' in neigh_node and 'S' in curr_node:
+                    is_loop, conn = get_main_loop('S',i+1,j,False)
+                    if is_loop: 
+                        return True, conn+1
+
+            if 'E' != prev_coord and j-1 >= 0:
+                neigh_node = loop[i][j-1]
+                if 'E' in neigh_node and 'W' in curr_node:
+                    is_loop, conn = get_main_loop('W',i,j-1,False)
+                    if is_loop: 
+                        return True, conn+1
+
+            if 'W' != prev_coord and j+1 < dim:
+                neigh_node = loop[i][j+1]
+                if 'W' in neigh_node and 'E' in curr_node:
+                    is_loop, conn = get_main_loop('E',i,j+1,False)
+                    if is_loop: 
+                        return True, conn+1
+            
+            return False, 0
+    
+    for i in range(dim):
+        for j in range (dim):
+            node = loop[i][j]
+            
+            if node == ('N','S','E','W'):
+                finished, connections = get_main_loop('',i, j, True)
+                print(connections)
+                print(connections/2)
+           
+
+# coords = [[coord2symbol[loop[i][j]] for j in range(dim)] for i in range(dim)]
+
+# for i in range(dim):
+#     for j in range(dim):
+#         print(coords[i][j],end='')
+#     print()
+
+# res = math.ceil(main_loop_size/2)
+# print(res)
