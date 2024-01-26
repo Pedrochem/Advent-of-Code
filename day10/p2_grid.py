@@ -107,11 +107,14 @@ coords = [[coord2symbol[loop[i][j]] for j in range(dim_y)] for i in range(dim_x)
 
 for i in range(dim_x):
     for j in range(dim_y):
+        if coords[i][j]=='S':
+            loop[i][j] = ('S','W','E')
         if (i,j) in route or coords[i][j]=='.' :
             print(coords[i][j],end='')
         else:
             print('.',end='')
             coords[i][j]='.'
+            loop[i][j]='.'
     print()
 
 
@@ -144,7 +147,7 @@ def get_tile_val(i,j):
         if (x,y-1) in route and 'E' in loop[x][y-1] and 'W' in loop[x][y]:
             top_left = True
         
-        if (x,y+1) in route and 'W' in loop[x][y-1] and 'E' in loop[x][y]:
+        if (x,y+1) in route and 'W' in loop[x][y+1] and 'E' in loop[x][y]:
             top_right = True  
 
         if top_right and top_left:
@@ -162,7 +165,7 @@ def get_tile_val(i,j):
         if (x,y-1) in route and 'E' in loop[x][y-1] and 'W' in loop[x][y]:
             bot_left = True
         
-        if (x,y+1) in route and 'W' in loop[x][y-1] and 'E' in loop[x][y]:
+        if (x,y+1) in route and 'W' in loop[x][y+1] and 'E' in loop[x][y]:
             bot_right = True  
 
         if bot_right and bot_left:
@@ -176,10 +179,10 @@ def get_tile_val(i,j):
         if y <= j:
             break
         
-        if (x-1,y) in route and 'N' in loop[x-1][y] and 'S' in loop[x][y]:
+        if (x-1,y) in route and 'S' in loop[x-1][y] and 'N' in loop[x][y]:
             right_top = True
         
-        if (x+1,y) in route and 'S' in loop[x+1][y] and 'N' in loop[x][y]:
+        if (x+1,y) in route and 'N' in loop[x+1][y] and 'S' in loop[x][y]:
             right_bot = True  
 
         if right_top and right_bot:
@@ -193,10 +196,10 @@ def get_tile_val(i,j):
         if y >= j:
             break
         
-        if (x-1,y) in route and 'N' in loop[x-1][y] and 'S' in loop[x][y]:
+        if (x-1,y) in route and 'S' in loop[x-1][y] and 'N' in loop[x][y]:
             left_top = True
         
-        if (x+1,y) in route and 'S' in loop[x+1][y] and 'N' in loop[x][y]:
+        if (x+1,y) in route and 'N' in loop[x+1][y] and 'S' in loop[x][y]:
             left_bot = True  
 
         if left_top and left_bot:
@@ -207,36 +210,46 @@ def get_tile_val(i,j):
     else:
         return 'O'
 
-
-
+def get_res(i,j):
+    a=0
+    while j>=0:
+        if 'N' in loop[i][j]:
+            a+=1  
+        j-=1  
+    
+    print(a)
+    if a%2==0:
+        return 'O'
+    else:
+        return 'I'
 for i in range(dim_x):
     for j in range(dim_y):
         if coords[i][j] == '.':
-            val = get_tile_val(i,j)
+            val = get_res(i,j)
             coords[i][j] = val
-            if val == "O":
-                z=j
-                #update left               
-                while (z>0 and coords[i][z-1] in ('I','.','O')):
-                    z-=1
-                    coords[i][z] = 'O'
+            # if val == "O":
+            #     z=j-1
+            #     #update left               
+            #     while (z>=0 and coords[i][z] in ('I','.','O')):
+            #         coords[i][z] = 'O'
+            #         z-=1
 
-                z=j
-                # update right
-                while (z<dim_y-1 and coords[i][z+1] in ('I','.','O')):
-                    z+=1
-                    coords[i][z] = 'O'
+            #     z=j+1
+            #     # update right
+            #     while (z<dim_y and coords[i][z] in ('I','.','O')):
+            #         coords[i][z] = 'O'
+            #         z+=1
 
-                z=i
-                # update top
-                while (z>0 and coords[z-1][j] in ('I','.','O')):
-                    z-=1
-                    coords[z][j] = 'O'
-                z=i
-                # update bot
-                while (z<dim_x-1 and coords[z+1][j] in ('I','.','O')):
-                    z+=1
-                    coords[z][j] = 'O'
+            #     z=i-1
+            #     # update top
+            #     while (z>=0 and coords[z][j] in ('I','.','O')):
+            #         coords[z][j] = 'O'
+            #         z-=1
+            #     z=i+1
+            #     # update bot
+            #     while (z<dim_x and coords[z][j] in ('I','.','O')):
+            #         coords[z][j] = 'O'
+            #         z+=1
                 
 
 
