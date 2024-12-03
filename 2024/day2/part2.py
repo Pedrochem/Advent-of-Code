@@ -5,9 +5,9 @@ def check_inc(report, first):
             continue
         
         if first:
-            if check_inc(report[:i]+report[i+1:], False):
+            if check_inc(report[i-1:i]+report[i+1:], False):
                 return True
-            if check_inc(report[:i+1]+report[i+2:], False):
+            if check_inc([report[i]]+report[i+2:], False):
                 return True
             return False
         else:
@@ -22,9 +22,9 @@ def check_dec(report, first):
             continue
         
         if first:
-            if check_dec(report[:i]+report[i+1:], False):
+            if check_dec(report[i-1:i]+report[i+1:], False):
                 return True
-            if check_dec(report[:i+1]+report[i+2:], False):
+            if check_dec([report[i]]+report[i+2:], False):
                 return True
             return False
         else:
